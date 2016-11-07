@@ -1,12 +1,7 @@
-/**A GEANT4 simulation of a single BrilLanCe 380 cyrstal.
- *
- *
- */
-
 #ifdef G4MULTITHREADED
-	#include "G4MTRunManager.hh"
+#include "G4MTRunManager.hh"
 #else
-	#include "G4RunManager.hh"
+#include "G4RunManager.hh"
 #endif
 
 #ifdef G4VIS_USE
@@ -18,36 +13,64 @@
 #endif
 
 #include "G4UImanager.hh"
-#include "PhysicsList.h"
+#include "PhysicsList.hh"
+#include "FTFP_BERT_HP.hh"
+
+//#include "G4VModularPhysicsList.hh"
 
 #include "DetectorConstruction.h"
-#include "ActionInitialization.h"
+//#include "ActionInitialization.h"
+#include "PrimaryGenerator.h"
+#include "GasGapRunAction.hh"
+#include "GasGapEventAction.hh"
+#include "GasGapSteppingAction.hh"
+#include "GasGapElectricFieldSetup.hh"
+//#include "HistoManager.hh"
 
 #include "G4ScoringManager.hh"
 
 int main(int argc, char** argv)
 {
 
-#ifdef G4MULTITHREADED
-	G4MTRunManager* runManager = new G4MTRunManager;
-#else
-	G4RunManager* runManager = new G4RunManager;
-#endif
+// #ifdef G4MULTITHREADED
+//   G4MTRunManager* runManager = new G4MTRunManager;
+// #else
+//   G4RunManager* runManager = new G4RunManager;
+// #endif
 
-	//Initialize detector construction
-	runManager->SetUserInitialization(new DetectorConstruction());
-
-	//Initialize physics list
-	runManager->SetUserInitialization(new PhysicsList());
+  G4RunManager * runManager = new G4RunManager;
+  
+  // Construct the helper class to manage the electric field &                                                         // the parameters for the propagation of particles in it.                                                           
+  //  GasGapElectricFieldSetup* field = new GasGapElectricFieldSetup() ;    
+  
+  //Initialize detector construction
+  //    G4VUserPhysicsList* physics = new FTFP_BERT_HP();
+  //    runManager->SetUserInitialization(physics);
+  runManager->SetUserInitialization(new PhysicsList);
+  runManager->SetUserAction(new PrimaryGenerator) ;
+  runManager->SetUserInitialization(new DetectorConstruction());
+  
 	
-	//Initialize user action
-	runManager->SetUserInitialization(new ActionInitialization());
-	
-	//Initialize kernel
-	runManager->Initialize();
+  //Initialize physics list
+  //	runManager->SetUserInitialization(new PhysicsList());
 
-	//Activate command-based scorer
-	G4ScoringManager::GetScoringManager();
+  
+  //Initialize kernel
+  //  runManager->Initialize();
+	
+  //Initialize user action
+  GasGapRunAction* run_action = new GasGapRunAction();
+  runManager->SetUserAction(run_action) ;         
+  runManager->SetUserAction(new GasGapEventAction()) ;
+  runManager->SetUserAction(new GasGapSteppingAction);
+  //	runManager->SetUserInitialization(new ActionInitialization());
+  //	GasGapRunAction* run_action = new GasGapRunAction(histo);
+  //	F02RunAction* run_action = new F02RunAction();
+  //	F02RunAction* run_action = new F02RunAction(histo);
+  //	runManager->SetUserAction(new GasGapEventAction(run_action,histo)) ;
+	
+  //Activate command-based scorer
+  G4ScoringManager::GetScoringManager();
   
 #ifdef G4VIS_USE
   // Initialize visualization
@@ -83,7 +106,8 @@ int main(int argc, char** argv)
 #ifdef G4VIS_USE
   delete visManager;
 #endif
-	delete runManager;
-	
-	return 0;
+  delete runManager;
+  //  delete field;
+  
+  return 0;
 }

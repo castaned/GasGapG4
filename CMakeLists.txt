@@ -50,6 +50,23 @@ endif()
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+#----------------------------------------------------------------------------
+# Find ROOT variables if the variable G4ANALYSIS_USE_ROOT is set
+#
+find_package(ROOT QUIET)
+#----------------------------------------------------------------------------
+# Find ROOT (required package)
+#
+find_package(ROOT QUIET)
+add_definitions(-DG4ANALYSIS_USE_ROOT)
+if(NOT ROOT_FOUND)
+  message(STATUS "G4 Examples: ROOT package not found. --> 3GEM-G4 example disabled")
+  return()
+endif()
+
+include_directories(${ROOT_INCLUDE_DIR})
+
+
 install(DIRECTORY share DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 add_subdirectory(src)
