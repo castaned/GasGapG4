@@ -29,9 +29,11 @@
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
+#include  "G4ParticleGun.hh"
 
 class G4VPrimaryGenerator;
 class G4Event;
+class PrimaryGeneratorMessenger;
 //class ExN04PrimaryGeneratorMessenger;
 
 class PrimaryGenerator : public G4VUserPrimaryGeneratorAction
@@ -41,13 +43,20 @@ class PrimaryGenerator : public G4VUserPrimaryGeneratorAction
     ~PrimaryGenerator();
 
   public:
+    void SetDefaultKinematic();
+    //    void SetEnBeam(G4double val){ Enval= val;}
+    void SetEnBeam(G4double val);
     void GeneratePrimaries(G4Event* anEvent);
 
   private:
     //    G4VPrimaryGenerator* HEPEvt;
     G4VPrimaryGenerator* particleGun;
+    G4ParticleGun*    fParticleGun;
     //    ExN04PrimaryGeneratorMessenger* messenger;
     //    G4bool useHEPEvt;
+    G4double    Enval;
+    PrimaryGeneratorMessenger* gunMessenger;                                                                                                                                            
+
 
   public:
     //    inline void SetHEPEvtGenerator(G4bool f)
