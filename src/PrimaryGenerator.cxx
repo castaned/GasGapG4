@@ -25,7 +25,7 @@
 //
 
 #include "PrimaryGenerator.h"
-//#include "ExN04PrimaryGeneratorMessenger.hh"
+#include "PrimaryGeneratorMessenger.hh"
 
 #include "G4Event.hh"
 #include "G4HEPEvtInterface.hh"
@@ -39,28 +39,60 @@ PrimaryGenerator::PrimaryGenerator()
 {
   // const char* filename = "pythia_event.data";
   // HEPEvt = new G4HEPEvtInterface(filename);
-  
+  //create a messenger for this class
+
   G4int n_particle = 1;
-  G4ParticleGun* fParticleGun = new G4ParticleGun(n_particle);
+  fParticleGun = new G4ParticleGun(n_particle);
+  SetDefaultKinematic();
+  SetEnBeam(Enval);
+  //  Enval=150*GeV;
+  
+  
+  //create a messenger for this class  
+  gunMessenger = new PrimaryGeneratorMessenger(this);
+
+  // G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  // G4String particleName;
+  // G4ParticleDefinition* particle
+  //   = particleTable->FindParticle(particleName="mu-");
+  // fParticleGun->SetParticleDefinition(particle);
+  // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  // fParticleGun->SetParticleEnergy(100.*keV);
+  // fParticleGun->SetParticlePosition(G4ThreeVector(0.*cm,0.*cm,-2.4*cm));
+  // particleGun = fParticleGun;
+  
+  //  messenger = new ExN04PrimaryGeneratorMessenger(this);
+  //  useHEPEvt = false;
+}
+
+
+PrimaryGenerator::~PrimaryGenerator()
+{
+  //  delete HEPEvt;
+  delete particleGun;
+  delete gunMessenger;
+}
+
+
+void PrimaryGenerator::SetDefaultKinematic()
+{
+
+  //  G4int n_particle = 1;
+  //  G4ParticleGun* fParticleGun = new G4ParticleGun(n_particle);
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
   G4ParticleDefinition* particle
     = particleTable->FindParticle(particleName="mu-");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(150.*GeV);
   fParticleGun->SetParticlePosition(G4ThreeVector(0.*cm,0.*cm,-2.4*cm));
   particleGun = fParticleGun;
-  
-  //  messenger = new ExN04PrimaryGeneratorMessenger(this);
-  //  useHEPEvt = false;
 }
 
-PrimaryGenerator::~PrimaryGenerator()
-{
-  //  delete HEPEvt;
-  delete particleGun;
-  //  delete messenger;
+
+void PrimaryGenerator::SetEnBeam(G4double Enval){
+  fParticleGun->SetParticleEnergy(Enval);
+  G4cout<<" Energy of particle set to   "<<Enval<<"  [MeV]  "<<G4endl;
 }
 
 void PrimaryGenerator::GeneratePrimaries(G4Event* anEvent)

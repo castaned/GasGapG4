@@ -93,6 +93,7 @@ void DetectorConstruction::DefineMaterials() {
 
   
   fGasMat = ArCO2;
+  //  fGasMat =Cu;
   
 }
 

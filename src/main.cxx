@@ -44,9 +44,9 @@ int main(int argc, char** argv)
   //  GasGapElectricFieldSetup* field = new GasGapElectricFieldSetup() ;    
   
   //Initialize detector construction
-  //    G4VUserPhysicsList* physics = new FTFP_BERT_HP();
-  //    runManager->SetUserInitialization(physics);
-  runManager->SetUserInitialization(new PhysicsList);
+  G4VUserPhysicsList* physics = new FTFP_BERT_HP();
+  runManager->SetUserInitialization(physics);
+  //  runManager->SetUserInitialization(new PhysicsList);
   runManager->SetUserAction(new PrimaryGenerator) ;
   runManager->SetUserInitialization(new DetectorConstruction());
   

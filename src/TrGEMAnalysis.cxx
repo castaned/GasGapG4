@@ -45,11 +45,12 @@ void TrGEMAnalysis::PrepareNewEvent(const G4Event* /*anEvent*/)
   TrajPoint = -10000;
   nSteps = 0;
   ETotstep = 0.;
+  deltaETotstep = 0.;
    
    
   Trjen= -10000.;
 
-  for(G4int k=0;k<100;k++){
+  for(G4int k=0;k<200;k++){
 
     Trjposx[k] = -10000.;
     Trjposy[k] = -10000.;
@@ -68,6 +69,7 @@ void TrGEMAnalysis::PrepareNewEvent(const G4Event* /*anEvent*/)
     EDepImSec_perstep[k] = -10000.;
     EDepImu_perstep[k] = -10000.;
     pdgIDstep[k] = -10000.;
+    parentIDstep[k] = -10000.;
     genZstep[k] = -10000.;
      
   }
@@ -194,6 +196,7 @@ void TrGEMAnalysis::PrepareNewRun(const G4Run* /*aRun*/)
    
   t->Branch("EDepI",&EDepI,"EDepI/D");
   t->Branch("ETotstep",&ETotstep,"ETotstep/D");
+  t->Branch("deltaETotstep",&deltaETotstep,"deltaETotstep/D");
   t->Branch("Trajnum",&Trajnum,"Trajnum/I");
   t->Branch("TrajPoint",&TrajPoint,"TrajPoint/I");
   t->Branch("nSteps",&nSteps,"nSteps/I");
@@ -215,6 +218,7 @@ void TrGEMAnalysis::PrepareNewRun(const G4Run* /*aRun*/)
   t->Branch("EDepImSec_perstep",&EDepImSec_perstep,"EDepImSec_perstep[nSteps]/D");
   t->Branch("EDepImu_perstep",&EDepImu_perstep,"EDepImu_perstep[nSteps]/D");
   t->Branch("pdgIDstep",&pdgIDstep,"pdgIDstep[nSteps]/I");
+  t->Branch("parentIDstep",&parentIDstep,"parentIDstep[nSteps]/I");
   t->Branch("genZstep",&genZstep,"genZstep[nSteps]/D");
 
   //   t->Branch("Trjen",&Trjen,"Trjen/D");
@@ -393,6 +397,12 @@ void TrGEMAnalysis::AddEtotSteps(G4double epstep)
   ETotstep += epstep;
 }
 
+
+void TrGEMAnalysis::AdddeltaEtotSteps(G4double depstep)
+{
+  deltaETotstep += depstep;
+}
+
 G4int TrGEMAnalysis::GetnStep(){
   return nSteps;
 }
@@ -451,6 +461,12 @@ void TrGEMAnalysis::AddEDepImu_perstep(G4int numstep, G4double edepimu){
 void TrGEMAnalysis::AddPDGID(G4int numstep, G4int pdgval)
 {
   pdgIDstep[numstep-1] = pdgval;
+}
+
+
+void TrGEMAnalysis::AddParentID(G4int numstep, G4int parentval)
+{
+  parentIDstep[numstep-1] = parentval;
 }
 
 void TrGEMAnalysis::AddgenZ(G4int numstep, G4double genzval)

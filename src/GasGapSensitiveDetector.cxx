@@ -126,6 +126,9 @@ G4bool GasGapSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory *)
   G4double deltae = step->GetDeltaEnergy();
   G4double SLength = step->GetStepLength();
 
+  G4double e1Prim = std::sqrt(track->GetMomentum().mag2() + (105*MeV)*(105*MeV)) - 105*MeV;
+
+  
   G4cout<<" ======================================== "<<G4endl;
   G4cout<<" ======================================== "<<G4endl;
   G4cout<<" ======================================== "<<G4endl;
@@ -140,6 +143,8 @@ G4bool GasGapSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory *)
   G4cout<<"  Delta Energy                    [MeV]  "<<deltae<<G4endl;
   G4cout<<"  Delta Energy - Total            [MeV]  "<<fabs(deltae) - edep<<G4endl;
   G4cout<<"  (Delta Energy - Total) - EdepI  [MeV]  "<<(fabs(deltae) - edep) - edepI<<G4endl;
+  G4cout<<"  Momentum magnitude              [MeV]  "<<track->GetMomentum()<<G4endl;
+  G4cout<<" Kinetic energy formula           [MeV]  "<<e1Prim<<G4endl;
   
   double x= track->GetPosition().getX();
   double y= track->GetPosition().getY();
@@ -157,6 +162,7 @@ G4bool GasGapSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory *)
 
   //  if( fabs(step->GetTrack()->GetParticleDefinition()->GetPDGEncoding()) == 13){
   TrGEMAnalysis::GetInstance()->AddEtotSteps(edepI);
+  TrGEMAnalysis::GetInstance()->AdddeltaEtotSteps(deltae);
   //  }
 
   
@@ -192,6 +198,7 @@ G4bool GasGapSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory *)
   G4cout<<"  Track Indx           "<<trackIndex<<G4endl;
   G4cout<<"  genZ          [mm]   "<<genz<<G4endl;
   G4cout<<"  parentID             "<<step->GetTrack()->GetParentID()<<G4endl;
+  TrGEMAnalysis::GetInstance()->AddParentID(nstep,step->GetTrack()->GetParentID());
   G4cout<<"  KineticEnergy [MeV]  "<<step->GetTrack()->GetKineticEnergy()<<G4endl;
 
   fCluster = fElIonPair->SampleNumberOfIonsAlongStep(step);
