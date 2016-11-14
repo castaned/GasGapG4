@@ -29,6 +29,7 @@ class TrGEMAnalysis {
       void AddSLength_perstep(G4int nstep, G4double sl);
       void AddEDep(G4double edep, G4double z);
       void AddPDGID(G4int count, G4int pdgval);
+      void AddParentID(G4int count, G4int parentval);
       void AddgenZ(G4int count, G4double genzval);
       void AddEDepI(G4double edepIon);
       void AddnSteps();
@@ -43,6 +44,7 @@ class TrGEMAnalysis {
       void AddETot_perstep(G4int nstep, G4double etot);
       void AddNclust_perstep(G4int nstep,G4int nclust);
       void AddEtotSteps(G4double epstep);
+      void AdddeltaEtotSteps(G4double depstep);
       void AddEDelta_perstep(G4int nstep, G4double edelta);
       void AddEDepI_perstep(G4int nstep, G4double edepi);
       void AddEDepSec_perstep(G4int nstep, G4double edeps);
@@ -122,29 +124,31 @@ class TrGEMAnalysis {
   G4int     nSteps;
   G4int     Trajnum;
   G4int     TrajPoint;
-  G4int     pdgIDstep[100];
-  G4double    genZstep[100];
+  G4int     pdgIDstep[200];
+  G4int     parentIDstep[200];
+  G4double    genZstep[200];
   
-  G4double Trjposx[100];
-  G4double Trjposy[100];
-  G4double Trjposz[100];
+  G4double Trjposx[200];
+  G4double Trjposy[200];
+  G4double Trjposz[200];
 
-  G4double Trjposx_perstep[100];
-  G4double Trjposy_perstep[100];
-  G4double Trjposz_perstep[100];
+  G4double Trjposx_perstep[200];
+  G4double Trjposy_perstep[200];
+  G4double Trjposz_perstep[200];
 
-  G4double SLength_perstep[100];
-  G4double ETot_perstep[100];
-  G4int    Nclust_perstep[100];
-  G4double EDelta_perstep[100];
-  G4double EDepI_perstep[100];
-  G4double EDepSec_perstep[100];
-  G4double EDepImSec_perstep[100];
-  G4double EDepImu_perstep[100];
+  G4double SLength_perstep[200];
+  G4double ETot_perstep[200];
+  G4int    Nclust_perstep[200];
+  G4double EDelta_perstep[200];
+  G4double EDepI_perstep[200];
+  G4double EDepSec_perstep[200];
+  G4double EDepImSec_perstep[200];
+  G4double EDepImu_perstep[200];
 
   G4double Trjen;
 
   G4double ETotstep;
+  G4double  deltaETotstep;
 
   
   // G4int elexevt ;
