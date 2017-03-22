@@ -10,6 +10,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4LossTableManager.hh"
 #include "G4ElectronIonPair.hh"
+#include "G4UserSteppingAction.hh"
 
 #include "TrGEMAnalysis.hh"
 #include "GasGapSensitiveDetector.h"
@@ -204,8 +205,37 @@ G4bool GasGapSensitiveDetector::ProcessHits(G4Step *step, G4TouchableHistory *)
   fCluster = fElIonPair->SampleNumberOfIonsAlongStep(step);
   G4cout<<"  Number of Ion clusters  "<<fCluster<<G4endl;
   TrGEMAnalysis::GetInstance()->AddNclust_perstep(nstep,fCluster);
-  
 
+  //  const G4SteppingManager* pSM = fpSteppingManager;
+
+    //secondaries                                                                                                                           
+  //                                                                                                                                      
+  //  const G4TrackVector* secondary = fpSteppingManager->GetSecondary();                                                                     
+  // for (size_t lp=0; lp<(*secondary).size(); lp++) {                                                                                       
+  //   particle = (*secondary)[lp]->GetDefinition();                                                                                         
+  //   G4String name   = particle->GetParticleName();                                                                                        
+  //   G4String type   = particle->GetParticleType();                                                                                        
+  //   G4double charge = particle->GetPDGCharge();                                                                                           
+  //   G4double energy = (*secondary)[lp]->GetKineticEnergy();                                                                               
+  //   fRunAction->ParticleCount(name,energy);                                                                                               
+  //   //energy spectrum                                                                                                                     
+  //   if (charge > 3.)  ih = 2;                                                                                                             
+  //   else if (particle == G4Gamma::Gamma())       ih = 3;                                                                                  
+  //   else if (particle == G4Neutron::Neutron())   ih = 4;                                                                                  
+  //   else if (particle == G4Proton::Proton())     ih = 5;                                                                                  
+  //   else if (particle == G4Deuteron::Deuteron()) ih = 6;                                                                                  
+  //   else if (particle == G4Alpha::Alpha())       ih = 7;                                                                                  
+  //   else if (type == "nucleus")                  ih = 8;                                                                                  
+  //   else if (type == "meson")                    ih = 9;                                                                                  
+  //   else if (type == "baryon")                   ih = 10;                                                                                 
+  //   analysis->FillH1(ih,energy);                                                                                                          
+  //   //energy-momentum balance                                                                                                             
+  //   G4ThreeVector momentum = (*secondary)[lp]->GetMomentum();                                                                             
+  //   Q        += energy;                                                                                                                   
+  //   Pbalance += momentum;                                                                                                                 
+  //   //particle flag                                                                                                                       
+  //   fParticleFlag[particle]++;                                                                                                            
+  // }                                                  
   
   // G4String genprocess;
   // if(track->GetCreatorProcess()!=0) {

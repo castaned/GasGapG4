@@ -72,6 +72,9 @@ void TrGEMAnalysis::PrepareNewEvent(const G4Event* /*anEvent*/)
     parentIDstep[k] = -10000.;
     genZstep[k] = -10000.;
      
+    nSec[k] = 0;
+
+
   }
    
 
@@ -200,6 +203,7 @@ void TrGEMAnalysis::PrepareNewRun(const G4Run* /*aRun*/)
   t->Branch("Trajnum",&Trajnum,"Trajnum/I");
   t->Branch("TrajPoint",&TrajPoint,"TrajPoint/I");
   t->Branch("nSteps",&nSteps,"nSteps/I");
+  t->Branch("nSec",&nSec,"nSec[nSteps]/I");
    
   t->Branch("Trjposx",&Trjposx,"Trjposx[20]/D");
   t->Branch("Trjposy",&Trjposy,"Trjposy[20]/D");
@@ -391,6 +395,10 @@ void TrGEMAnalysis::AddnSteps()
   nSteps++;
 }
 
+void TrGEMAnalysis::AddnSec(G4int count, G4int nsec){
+  nSec[count-1] = nsec;
+}
+
 
 void TrGEMAnalysis::AddEtotSteps(G4double epstep)
 {
@@ -406,6 +414,7 @@ void TrGEMAnalysis::AdddeltaEtotSteps(G4double depstep)
 G4int TrGEMAnalysis::GetnStep(){
   return nSteps;
 }
+
 
 void TrGEMAnalysis::AddTrajInf(G4int ntraj){
   Trajnum = ntraj;

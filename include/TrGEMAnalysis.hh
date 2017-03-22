@@ -33,6 +33,7 @@ class TrGEMAnalysis {
       void AddgenZ(G4int count, G4double genzval);
       void AddEDepI(G4double edepIon);
       void AddnSteps();
+      void AddnSec(G4int count,G4int nsec);
       G4int GetnStep();
       void AddTrajInf(G4int trajin);
 
@@ -122,6 +123,7 @@ class TrGEMAnalysis {
   G4double  primarypos_z;
   G4double  EDepI;
   G4int     nSteps;
+  G4int     nSec[200];
   G4int     Trajnum;
   G4int     TrajPoint;
   G4int     pdgIDstep[200];

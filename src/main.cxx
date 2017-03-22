@@ -26,6 +26,7 @@
 #include "GasGapSteppingAction.hh"
 #include "GasGapElectricFieldSetup.hh"
 //#include "HistoManager.hh"
+#include "SteppingAction.hh"
 
 #include "G4ScoringManager.hh"
 
@@ -62,7 +63,8 @@ int main(int argc, char** argv)
   GasGapRunAction* run_action = new GasGapRunAction();
   runManager->SetUserAction(run_action) ;         
   runManager->SetUserAction(new GasGapEventAction()) ;
-  runManager->SetUserAction(new GasGapSteppingAction);
+  runManager->SetUserAction(new SteppingAction());
+  //  runManager->SetUserAction(new GasGapSteppingAction);
   //	runManager->SetUserInitialization(new ActionInitialization());
   //	GasGapRunAction* run_action = new GasGapRunAction(histo);
   //	F02RunAction* run_action = new F02RunAction();
